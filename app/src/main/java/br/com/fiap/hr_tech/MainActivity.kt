@@ -8,9 +8,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
-import br.com.fiap.hr_tech.mvvm.view.component.calendar.CalendarGrid
-import br.com.fiap.hr_tech.mvvm.view.component.calendar.WeekdayList
-import br.com.fiap.hr_tech.mvvm.view_model.CalendarGridViewModel
+import br.com.fiap.hr_tech.mvvm.view.component.calendar.Calendar
+import br.com.fiap.hr_tech.mvvm.view_model.CalendarViewModel
 import br.com.fiap.hr_tech.ui.theme.HR_TechTheme
 
 class MainActivity : ComponentActivity() {
@@ -22,9 +21,9 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    Column{
-                        WeekdayList()
-                        CalendarGrid(CalendarGridViewModel(11,2023))
+                    val context = this
+                    Column {
+                        Calendar(CalendarViewModel(context))
                     }
                 }
             }

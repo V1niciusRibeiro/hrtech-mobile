@@ -8,39 +8,32 @@ import androidx.lifecycle.ViewModel
 import br.com.fiap.hr_tech.R
 import java.time.DayOfWeek
 import java.time.LocalDate
+import java.time.temporal.TemporalAdjuster
+import java.time.temporal.TemporalAdjusters
 
-class CalendarGridViewModel(month: Int, year: Int) : ViewModel() {
+class CalendarGridViewModel(private val year: Int, private val month: Int) : ViewModel() {
 
     private val today = LocalDate.now()
-    private val month = month
-    private val year = year
 
     val calendar = loadCalendar(month, year)
 
-    private val _dateSelected = MutableLiveData<LocalDate>()
-    val dateSelected: LiveData<LocalDate> = _dateSelected
+    private val _dateSelected = MutableLiveData<LocalDate?>()
+    val dateSelected: LiveData<LocalDate?> = _dateSelected
 
     private fun loadCalendar(month: Int, year: Int): List<LocalDate> {
-        var localDate = initiateLocalDate(month, year)
+        var localDate = LocalDate.of(year, month, 1)
+            .with(TemporalAdjusters.previousOrSame(DayOfWeek.SUNDAY))
+
         val calendar = mutableListOf<LocalDate>()
         repeat(35) {
-            calendar.add(LocalDate.of(localDate.year, localDate.monthValue, localDate.dayOfMonth))
+            calendar.add(localDate)
             localDate = localDate.plusDays(1)
         }
         return calendar
     }
 
-
-    private fun initiateLocalDate(month: Int, year: Int): LocalDate {
-        var localDate = LocalDate.of(year, month, 1)
-        while (localDate.dayOfWeek != DayOfWeek.SUNDAY) {
-            localDate = localDate.minusDays(1)
-        }
-        return localDate
-    }
-
-    fun dateSelectedChangeValue(month: Int, day: Int) {
-        _dateSelected.value = LocalDate.of(year, month, day)
+    fun dateSelectedChangeValue(localDate: LocalDate?) {
+        _dateSelected.value = localDate
     }
 
     fun textColor(calendarDate: LocalDate, daySelected: LocalDate?, context: Context): Color {
