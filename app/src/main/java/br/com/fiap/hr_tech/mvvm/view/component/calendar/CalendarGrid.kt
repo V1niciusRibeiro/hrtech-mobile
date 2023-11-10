@@ -20,61 +20,53 @@ import br.com.fiap.hr_tech.mvvm.view_model.CalendarGridViewModel
 import java.time.LocalDate
 
 @Composable
-fun CalendarGrid(viewModel: CalendarGridViewModel): LocalDate? {
+fun CalendarGrid(reduced: Boolean, viewModel: CalendarGridViewModel): LocalDate? {
 
     val context = LocalContext.current
-    val calendar by viewModel.calendar.observeAsState()
     val dateSelected by viewModel.dateSelected.observeAsState(initial = null)
-    viewModel.calendarLoad(dateSelected)
+    val initialDay = if ((dateSelected != null) and reduced) dateSelected!!.dayOfMonth else 1
+    var actualDate = viewModel.getInitialDate(initialDay)
 
-    if (calendar != null) {
-        Column {
-            WeekdayList()
-            repeat(calendar!!.size / 7) { week ->
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceEvenly
-                ) {
-                    repeat(7) { day ->
-                        val calendarDate = calendar!![(week * 7) + day]
-                        Box(
-                            modifier = Modifier
-                                .clip(shape = RoundedCornerShape(15.dp))
-                                .fillMaxWidth()
-                                .padding(2.5.dp)
-                                .weight(1f)
-                                .aspectRatio(1f)
-                                .clickable {
-                                    var localDate: LocalDate? = calendarDate
-                                    if ((calendarDate == dateSelected) and (!viewModel.retractCalendar)) {
-                                        localDate = null
-                                    }
-                                    viewModel.dateSelectedChangeValue(localDate)
-                                }
-                        ) {
-                            ItemBoxCalendar(
-                                text = calendarDate.dayOfMonth.toString(),
-                                textColor = viewModel.textColor(
-                                    calendarDate!!,
-                                    dateSelected,
-                                    context
-                                ),
-                                borderColor = viewModel.borderColor(
-                                    calendarDate!!,
-                                    context
-                                ),
-                                backgroundColor = viewModel.backgroundColor(
-                                    calendarDate!!,
-                                    dateSelected,
-                                    context
+    Column {
+        WeekdayList()
+        repeat(if (reduced) 1 else 5) {
+            Row(
+                horizontalArrangement = Arrangement.SpaceBetween,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                repeat(7) {
+                    val itemDate = actualDate
+                    Box(
+                        modifier = Modifier
+                            .weight(1f)
+                            .fillMaxWidth()
+                            .padding(2.5.dp)
+                            .aspectRatio(1f)
+                            .clip(shape = RoundedCornerShape(15.dp))
+                            .clickable {
+                                viewModel.dateSelectedChangeValue(
+                                    if ((itemDate == dateSelected) and !reduced)
+                                        null
+                                    else
+                                        itemDate
                                 )
+                            }
+                    ) {
+                        ItemBoxCalendar(
+                            text = itemDate.dayOfMonth.toString(),
+                            textColor = viewModel.textColor(itemDate, dateSelected, context),
+                            borderColor = viewModel.borderColor(itemDate, context),
+                            backgroundColor = viewModel.backgroundColor(
+                                itemDate,
+                                dateSelected,
+                                context
                             )
-                        }
+                        )
                     }
+                    actualDate = actualDate.plusDays(1)
                 }
             }
         }
     }
-
     return dateSelected
 }

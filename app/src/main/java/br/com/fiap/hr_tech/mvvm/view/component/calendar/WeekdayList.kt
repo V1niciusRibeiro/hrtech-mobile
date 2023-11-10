@@ -8,31 +8,27 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import br.com.fiap.hr_tech.R
+import java.time.DayOfWeek
+import java.time.format.TextStyle
+import java.util.Locale
 
 @Composable
 fun WeekdayList() {
 
-    val context = LocalContext.current
-    val weekdays = listOf(
-        context.getString(R.string.sunday),
-        context.getString(R.string.monday),
-        context.getString(R.string.tuesday),
-        context.getString(R.string.wednesday),
-        context.getString(R.string.thursday),
-        context.getString(R.string.friday),
-        context.getString(R.string.saturday),
-    )
-
     Row(
-        horizontalArrangement = Arrangement.SpaceEvenly,
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.SpaceBetween
     ) {
-        weekdays.forEach {
-            Box(Modifier.fillMaxWidth().weight(1f).aspectRatio(1f)){
+        for (dayOfWeek in DayOfWeek.values()) {
+            Box(
+                Modifier
+                    .weight(1f)
+                    .fillMaxWidth()
+                    .aspectRatio(1.5f)
+            ) {
                 ItemBoxCalendar(
-                    text = it,
+                    text = dayOfWeek.getDisplayName(TextStyle.SHORT, Locale.getDefault()).uppercase(),
                     textColor = Color(R.color.gray),
                     borderColor = Color.Transparent,
                     backgroundColor = Color.Transparent

@@ -1,12 +1,10 @@
 package br.com.fiap.hr_tech.mvvm.view_model
 
-import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import br.com.fiap.hr_tech.R
 import java.time.LocalDate
 
-class CalendarViewModel(context: Context) {
+class CalendarViewModel() {
 
     private val _selectorMonthOpen = MutableLiveData<Boolean>()
     val selectorMonthOpen: LiveData<Boolean> = _selectorMonthOpen
@@ -19,21 +17,6 @@ class CalendarViewModel(context: Context) {
 
     private val _dateSelected = MutableLiveData<LocalDate?>()
     val dateSelected: LiveData<LocalDate?> = _dateSelected
-
-    val months = arrayOf(
-        context.getString(R.string.january),
-        context.getString(R.string.february),
-        context.getString(R.string.march),
-        context.getString(R.string.april),
-        context.getString(R.string.may),
-        context.getString(R.string.june),
-        context.getString(R.string.july),
-        context.getString(R.string.august),
-        context.getString(R.string.september),
-        context.getString(R.string.october),
-        context.getString(R.string.november),
-        context.getString(R.string.december)
-    )
 
     fun selectorOpenChangeValue(open: Boolean) {
         _selectorMonthOpen.value = open
@@ -49,6 +32,15 @@ class CalendarViewModel(context: Context) {
 
     fun dateSelectedChangeValue(localDate: LocalDate?) {
         _dateSelected.value = localDate
+    }
+
+    fun processMonthYearSelectorReturn(monthYearSelectorReturn: MonthYearSelectorReturn) {
+        yearChangeValue(monthYearSelectorReturn.year)
+        monthChangeValue(monthYearSelectorReturn.month)
+
+        if (monthYearSelectorReturn.click){
+            selectorOpenChangeValue(false)
+        }
     }
 
 }

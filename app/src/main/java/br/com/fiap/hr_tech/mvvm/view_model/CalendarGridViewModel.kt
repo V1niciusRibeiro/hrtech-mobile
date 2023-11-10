@@ -8,52 +8,36 @@ import br.com.fiap.hr_tech.R
 import java.time.DayOfWeek
 import java.time.LocalDate
 
-class CalendarGridViewModel(
-    private val year: Int,
-    private val month: Int,
-    val retractCalendar: Boolean
-) {
+class CalendarGridViewModel(private val year: Int, private val month: Int) {
 
     private val today = LocalDate.now()
 
-    private val _calendar = MutableLiveData<List<LocalDate>>()
-    val calendar: LiveData<List<LocalDate>> = _calendar
-
     private val _dateSelected = MutableLiveData<LocalDate?>()
     val dateSelected: LiveData<LocalDate?> = _dateSelected
-
-    fun calendarLoad(daySelected: LocalDate?){
-
-        var localDate = if (retractCalendar) daySelected else LocalDate.of(year, month, 1)
-        while (localDate!!.dayOfWeek != DayOfWeek.SUNDAY){
-            localDate = localDate.minusDays(1)
-        }
-
-        val repeat = if (retractCalendar) 7 else 35
-        val calendar = arrayListOf<LocalDate>()
-        repeat(repeat) {
-            calendar.add(localDate!!)
-            localDate = localDate!!.plusDays(1)
-        }
-
-        _calendar.value = calendar
-    }
 
     fun dateSelectedChangeValue(localDate: LocalDate?) {
         _dateSelected.value = localDate
     }
 
-    fun textColor(calendarDate: LocalDate, daySelected: LocalDate?, context: Context): Color {
+    fun getInitialDate(startFrom: Int): LocalDate {
+        var localDate = LocalDate.of(year, month, startFrom)
+        while (localDate.dayOfWeek != DayOfWeek.SUNDAY) {
+            localDate = localDate.minusDays(1)
+        }
+        return localDate
+    }
+
+    fun textColor(itemDate: LocalDate, dateSelected: LocalDate?, context: Context): Color {
         var color = Color.Black
-        if (calendarDate.monthValue != month) {
+        if (itemDate.monthValue != month) {
             color = Color(context.getColor(R.color.gray))
         }
-        if ((today.dayOfMonth == calendarDate.dayOfMonth) and (today.month == calendarDate.month)) {
+        if ((today.dayOfMonth == itemDate.dayOfMonth) and (today.month == itemDate.month)) {
             color = Color(context.getColor(R.color.blue))
         }
-        if (daySelected != null) {
-            if ((calendarDate.dayOfMonth == daySelected.dayOfMonth)
-                and (calendarDate.month == daySelected.month)
+        if (dateSelected != null) {
+            if ((itemDate.dayOfMonth == dateSelected.dayOfMonth)
+                and (itemDate.month == dateSelected.month)
             ) {
                 color = Color.White
             }
@@ -61,19 +45,19 @@ class CalendarGridViewModel(
         return color
     }
 
-    fun borderColor(calendarDate: LocalDate, context: Context): Color {
+    fun borderColor(itemDate: LocalDate, context: Context): Color {
         var color = Color.Transparent
-        if ((today.dayOfMonth == calendarDate.dayOfMonth) and (today.month == calendarDate.month)) {
+        if ((today.dayOfMonth == itemDate.dayOfMonth) and (today.month == itemDate.month)) {
             color = Color(context.getColor(R.color.blue))
         }
         return color
     }
 
-    fun backgroundColor(calendarDate: LocalDate, daySelected: LocalDate?, context: Context): Color {
+    fun backgroundColor(itemDate: LocalDate, dateSelected: LocalDate?, context: Context): Color {
         var color = Color.Transparent
-        if (daySelected != null) {
-            if ((calendarDate.dayOfMonth == daySelected.dayOfMonth)
-                and (calendarDate.month == daySelected.month)
+        if (dateSelected != null) {
+            if ((itemDate.dayOfMonth == dateSelected.dayOfMonth)
+                and (itemDate.month == dateSelected.month)
             ) {
                 color = Color(context.getColor(R.color.blue))
             }

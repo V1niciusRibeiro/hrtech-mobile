@@ -25,15 +25,16 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import br.com.fiap.hr_tech.R
+import br.com.fiap.hr_tech.mvvm.view_model.MonthYearSelectorReturn
 import br.com.fiap.hr_tech.mvvm.view_model.MonthYearSelectorViewModel
-import br.com.fiap.hr_tech.mvvm.view_model.SelectorReturn
+import br.com.fiap.hr_tech.util.getMonthName
 
 @Composable
 fun MonthYearSelector(
     year: Int,
     month: Int,
     viewModel: MonthYearSelectorViewModel
-): SelectorReturn {
+): MonthYearSelectorReturn {
 
     val context = LocalContext.current
     val year by viewModel.year.observeAsState(initial = year)
@@ -99,7 +100,7 @@ fun MonthYearSelector(
                                 shape = RoundedCornerShape(15.dp)
                             )
                     ) {
-                        val indexMonth = (x * 4) + y
+                        val month = (x * 4) + y + 1
                         Box(
                             modifier = Modifier
                                 .width(88.dp)
@@ -108,23 +109,23 @@ fun MonthYearSelector(
                                 .absoluteOffset((-0.5).dp, (-2).dp)
                                 .background(
                                     color =
-                                    if (((indexMonth + 1) == monthSelected) and (yearSelected == year))
+                                    if ((month == monthSelected) and (yearSelected == year))
                                         Color(context.getColor(R.color.dark_ice))
                                     else
                                         Color(context.getColor(R.color.ice)),
                                     shape = RoundedCornerShape(15.dp)
                                 )
                                 .clickable {
-                                    viewModel.monthSelectedChangeValue(indexMonth + 1)
+                                    viewModel.monthSelectedChangeValue(month)
                                     viewModel.yearSelectedChangeValue(year)
                                     viewModel.clickChangeValue(true)
                                 }
                         )
-                        Text(text = viewModel.months[indexMonth], fontSize = 25.sp)
+                        Text(text = getMonthName(month).substring(0, 3), fontSize = 25.sp)
                     }
                 }
             }
         }
     }
-    return SelectorReturn(yearSelected, monthSelected, click)
+    return MonthYearSelectorReturn(yearSelected, monthSelected, click)
 }
