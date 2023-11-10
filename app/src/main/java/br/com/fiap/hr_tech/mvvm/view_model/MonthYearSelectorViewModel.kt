@@ -5,6 +5,12 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import br.com.fiap.hr_tech.R
 
+data class SelectorReturn(
+    val year: Int,
+    val month: Int,
+    val click: Boolean
+)
+
 class MonthYearSelectorViewModel(context: Context) {
 
     private val _year = MutableLiveData<Int>()
@@ -16,8 +22,8 @@ class MonthYearSelectorViewModel(context: Context) {
     private val _monthSelected = MutableLiveData<Int>()
     val monthSelected: LiveData<Int> = _monthSelected
 
-    private val _daySelected = MutableLiveData<Int>()
-    val daySelected: LiveData<Int> = _daySelected
+    private val _click = MutableLiveData<Boolean>()
+    val click: LiveData<Boolean> = _click
 
     val months = arrayOf(
         context.getString(R.string.january_reduced),
@@ -38,8 +44,8 @@ class MonthYearSelectorViewModel(context: Context) {
         _year.value = year
     }
 
-    fun daySelectedChangeValue(daySelected: Int) {
-        _daySelected.value = daySelected
+    fun clickChangeValue(click: Boolean) {
+        _click.value = click
     }
 
     fun yearSelectedChangeValue(yearSelected: Int) {

@@ -5,9 +5,9 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -23,51 +23,58 @@ import java.time.LocalDate
 fun CalendarGrid(viewModel: CalendarGridViewModel): LocalDate? {
 
     val context = LocalContext.current
-    val calendar = viewModel.calendar
+    val calendar by viewModel.calendar.observeAsState()
     val dateSelected by viewModel.dateSelected.observeAsState(initial = null)
+    viewModel.calendarLoad(dateSelected)
 
-    Column {
-        WeekdayList()
-        repeat(5) { week ->
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceEvenly
-            ) {
-                repeat(7) { day ->
-                    val calendarDate = calendar[(week * 7) + day]
-                    Box(modifier = Modifier
-                        .clip(shape = RoundedCornerShape(15.dp))
-                        .clickable {
-                            var localDate: LocalDate? = calendarDate
-                            if (calendarDate == dateSelected) {
-                                localDate = null
-                            }
-                            viewModel.dateSelectedChangeValue(localDate)
-                        }) {
-                        ItemBoxCalendar(
-                            text = calendarDate.dayOfMonth.toString(),
-                            textColor = viewModel.textColor(
-                                calendarDate,
-                                dateSelected,
-                                context
-                            ),
-                            borderColor = viewModel.borderColor(
-                                calendarDate,
-                                context
-                            ),
-                            backgroundColor = viewModel.backgroundColor(
-                                calendarDate,
-                                dateSelected,
-                                context
+    if (calendar != null) {
+        Column {
+            WeekdayList()
+            repeat(calendar!!.size / 7) { week ->
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceEvenly
+                ) {
+                    repeat(7) { day ->
+                        val calendarDate = calendar!![(week * 7) + day]
+                        Box(
+                            modifier = Modifier
+                                .clip(shape = RoundedCornerShape(15.dp))
+                                .fillMaxWidth()
+                                .padding(2.5.dp)
+                                .weight(1f)
+                                .aspectRatio(1f)
+                                .clickable {
+                                    var localDate: LocalDate? = calendarDate
+                                    if ((calendarDate == dateSelected) and (!viewModel.retractCalendar)) {
+                                        localDate = null
+                                    }
+                                    viewModel.dateSelectedChangeValue(localDate)
+                                }
+                        ) {
+                            ItemBoxCalendar(
+                                text = calendarDate.dayOfMonth.toString(),
+                                textColor = viewModel.textColor(
+                                    calendarDate!!,
+                                    dateSelected,
+                                    context
+                                ),
+                                borderColor = viewModel.borderColor(
+                                    calendarDate!!,
+                                    context
+                                ),
+                                backgroundColor = viewModel.backgroundColor(
+                                    calendarDate!!,
+                                    dateSelected,
+                                    context
+                                )
                             )
-                        )
+                        }
                     }
                 }
             }
-            Spacer(modifier = Modifier.size(5.dp))
         }
     }
 
     return dateSelected
-
 }

@@ -4,32 +4,39 @@ import android.content.Context
 import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import br.com.fiap.hr_tech.R
 import java.time.DayOfWeek
 import java.time.LocalDate
-import java.time.temporal.TemporalAdjuster
-import java.time.temporal.TemporalAdjusters
 
-class CalendarGridViewModel(private val year: Int, private val month: Int) : ViewModel() {
+class CalendarGridViewModel(
+    private val year: Int,
+    private val month: Int,
+    val retractCalendar: Boolean
+) {
 
     private val today = LocalDate.now()
 
-    val calendar = loadCalendar(month, year)
+    private val _calendar = MutableLiveData<List<LocalDate>>()
+    val calendar: LiveData<List<LocalDate>> = _calendar
 
     private val _dateSelected = MutableLiveData<LocalDate?>()
     val dateSelected: LiveData<LocalDate?> = _dateSelected
 
-    private fun loadCalendar(month: Int, year: Int): List<LocalDate> {
-        var localDate = LocalDate.of(year, month, 1)
-            .with(TemporalAdjusters.previousOrSame(DayOfWeek.SUNDAY))
+    fun calendarLoad(daySelected: LocalDate?){
 
-        val calendar = mutableListOf<LocalDate>()
-        repeat(35) {
-            calendar.add(localDate)
-            localDate = localDate.plusDays(1)
+        var localDate = if (retractCalendar) daySelected else LocalDate.of(year, month, 1)
+        while (localDate!!.dayOfWeek != DayOfWeek.SUNDAY){
+            localDate = localDate.minusDays(1)
         }
-        return calendar
+
+        val repeat = if (retractCalendar) 7 else 35
+        val calendar = arrayListOf<LocalDate>()
+        repeat(repeat) {
+            calendar.add(localDate!!)
+            localDate = localDate!!.plusDays(1)
+        }
+
+        _calendar.value = calendar
     }
 
     fun dateSelectedChangeValue(localDate: LocalDate?) {

@@ -1,7 +1,9 @@
 package br.com.fiap.hr_tech.mvvm.view.component.calendar
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -28,12 +30,14 @@ fun WeekdayList() {
         modifier = Modifier.fillMaxWidth()
     ) {
         weekdays.forEach {
-            ItemBoxCalendar(
-                text = it,
-                textColor = Color(R.color.gray),
-                borderColor = Color.Transparent,
-                backgroundColor = Color.Transparent
-            )
+            Box(Modifier.fillMaxWidth().weight(1f).aspectRatio(1f)){
+                ItemBoxCalendar(
+                    text = it,
+                    textColor = Color(R.color.gray),
+                    borderColor = Color.Transparent,
+                    backgroundColor = Color.Transparent
+                )
+            }
         }
     }
 

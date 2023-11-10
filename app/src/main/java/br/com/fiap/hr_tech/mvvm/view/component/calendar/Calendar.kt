@@ -22,44 +22,57 @@ import br.com.fiap.hr_tech.mvvm.view_model.MonthYearSelectorViewModel
 import java.time.LocalDate
 
 @Composable
-fun Calendar(viewModel: CalendarViewModel) {
+fun Calendar(viewModel: CalendarViewModel, retractCalendar: Boolean): LocalDate? {
 
     val today = LocalDate.now()
     val context = LocalContext.current
     val year by viewModel.year.observeAsState(initial = today.year)
     val month by viewModel.month.observeAsState(initial = today.monthValue)
+    val dateSelected by viewModel.dateSelected.observeAsState(initial = null)
     val selectorMonthOpen by viewModel.selectorMonthOpen.observeAsState(initial = false)
 
     Column {
+        Row(
+            verticalAlignment = Alignment.Bottom,
+            modifier = Modifier
+                .padding(13.dp, 25.dp, 13.dp, 15.dp)
+                .clickable {
+                    if (!retractCalendar) {
+                        viewModel.dateSelectedChangeValue(if (!selectorMonthOpen) null else dateSelected)
+                        viewModel.selectorOpenChangeValue(!selectorMonthOpen)
+                    }
+                }
+        ) {
+            Text(
+                text = viewModel.months[month - 1] + ", " + year,
+                fontSize = 25.sp,
+            )
+            Image(
+                painter = painterResource(R.drawable.baseline_keyboard_arrow_down_24),
+                contentDescription = "Arrow_Down",
+                modifier = Modifier.padding(start = 5.dp)
+            )
+        }
         if (selectorMonthOpen) {
-            val selectedYearMonth =
+            val monthYearSelectorReturn =
                 MonthYearSelector(year, month, MonthYearSelectorViewModel(context))
-            if (selectedYearMonth.dayOfMonth > 1) {
+            if (monthYearSelectorReturn.click) {
                 viewModel.selectorOpenChangeValue(false)
             }
-            viewModel.yearChangeValue(selectedYearMonth.year)
-            viewModel.monthChangeValue(selectedYearMonth.monthValue)
+            viewModel.yearChangeValue(monthYearSelectorReturn.year)
+            viewModel.monthChangeValue(monthYearSelectorReturn.month)
         } else {
-            Row(
-                verticalAlignment = Alignment.Bottom,
-                modifier = Modifier
-                    .padding(15.dp)
-                    .clickable {
-                        viewModel.selectorOpenChangeValue(true)
-                    }
-            ) {
-                Text(
-                    text = viewModel.months[month - 1] + ", " + year,
-                    fontSize = 25.sp,
+            viewModel.dateSelectedChangeValue(
+                CalendarGrid(
+                    CalendarGridViewModel(
+                        year,
+                        month,
+                        retractCalendar
+                    )
                 )
-                Image(
-                    painter = painterResource(R.drawable.baseline_keyboard_arrow_down_24),
-                    contentDescription = "Arrow_Down",
-                    modifier = Modifier.padding(start = 5.dp)
-                )
-            }
-            CalendarGrid(CalendarGridViewModel(year, month))
+            )
         }
     }
-
+    return dateSelected
 }
+

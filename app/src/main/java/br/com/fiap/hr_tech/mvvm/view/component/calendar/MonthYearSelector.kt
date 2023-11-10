@@ -26,18 +26,18 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import br.com.fiap.hr_tech.R
 import br.com.fiap.hr_tech.mvvm.view_model.MonthYearSelectorViewModel
-import java.time.LocalDate
+import br.com.fiap.hr_tech.mvvm.view_model.SelectorReturn
 
 @Composable
 fun MonthYearSelector(
     year: Int,
     month: Int,
     viewModel: MonthYearSelectorViewModel
-): LocalDate {
+): SelectorReturn {
 
     val context = LocalContext.current
     val year by viewModel.year.observeAsState(initial = year)
-    val daySelected by viewModel.daySelected.observeAsState(initial = 1)
+    val click by viewModel.click.observeAsState(initial = false)
     val yearSelected by viewModel.yearSelected.observeAsState(initial = year)
     val monthSelected by viewModel.monthSelected.observeAsState(initial = month)
 
@@ -117,7 +117,7 @@ fun MonthYearSelector(
                                 .clickable {
                                     viewModel.monthSelectedChangeValue(indexMonth + 1)
                                     viewModel.yearSelectedChangeValue(year)
-                                    viewModel.daySelectedChangeValue(2)
+                                    viewModel.clickChangeValue(true)
                                 }
                         )
                         Text(text = viewModel.months[indexMonth], fontSize = 25.sp)
@@ -126,5 +126,5 @@ fun MonthYearSelector(
             }
         }
     }
-    return LocalDate.of(yearSelected, monthSelected, daySelected)
+    return SelectorReturn(yearSelected, monthSelected, click)
 }
