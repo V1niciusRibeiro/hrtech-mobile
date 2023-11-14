@@ -25,7 +25,8 @@ fun CalendarGrid(reduced: Boolean, viewModel: CalendarGridViewModel): LocalDate?
     val context = LocalContext.current
     val dateSelected by viewModel.dateSelected.observeAsState(initial = null)
     val initialDay = if ((dateSelected != null) and reduced) dateSelected!!.dayOfMonth else 1
-    var actualDate = viewModel.getInitialDate(initialDay)
+    val initialMonth = if ((dateSelected != null) and reduced) dateSelected!!.monthValue else 0
+    var actualDate = viewModel.getInitialDate(initialMonth, initialDay)
 
     Column {
         WeekdayList()

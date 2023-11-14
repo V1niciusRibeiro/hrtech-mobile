@@ -1,4 +1,4 @@
-package br.com.fiap.hr_tech.mvvm.view.component
+package br.com.fiap.hr_tech.mvvm.view.component.work_hour
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement

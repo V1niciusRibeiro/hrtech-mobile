@@ -15,6 +15,12 @@ class WorkHoursScreenViewModel {
     private val _dateSelected = MutableLiveData<LocalDate?>()
     val dateSelected: LiveData<LocalDate?> = _dateSelected
 
+    private val _description = MutableLiveData<String>()
+    val description: LiveData<String> = _description
+
+    private val _hour = MutableLiveData<String>()
+    val hour: LiveData<String> = _hour
+
     fun retractCalendarChangeValue(retract: Boolean) {
         _retractCalendar.value = retract
     }
@@ -28,6 +34,14 @@ class WorkHoursScreenViewModel {
         if (localDate == null) {
             retractCalendarChangeValue(false)
         }
+    }
+
+    fun descriptionChangeValue(description: String) {
+        _description.value = description
+    }
+
+    fun hourChangeValue(hour: String) {
+        _hour.value = hour
     }
 
 }

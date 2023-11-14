@@ -26,9 +26,9 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import br.com.fiap.hr_tech.R
-import br.com.fiap.hr_tech.mvvm.view.component.WorkHourItem
-import br.com.fiap.hr_tech.mvvm.view.component.WorkHoursPopup
 import br.com.fiap.hr_tech.mvvm.view.component.calendar.Calendar
+import br.com.fiap.hr_tech.mvvm.view.component.work_hour.WorkHourItem
+import br.com.fiap.hr_tech.mvvm.view.component.work_hour.WorkHoursPopup
 import br.com.fiap.hr_tech.mvvm.view_model.CalendarViewModel
 import br.com.fiap.hr_tech.mvvm.view_model.WorkHoursScreenViewModel
 import br.com.fiap.hr_tech.util.getMonthName
@@ -41,8 +41,11 @@ fun WorkHoursScreen(viewModel: WorkHoursScreenViewModel) {
     val dateSelected by viewModel.dateSelected.observeAsState(initial = null)
     val retractCalendar by viewModel.retractCalendar.observeAsState(initial = false)
 
-    if (openPopup){
-        WorkHoursPopup("a",viewModel)
+    if (openPopup) {
+        WorkHoursPopup(
+            context.getString(R.string.insert) + " " + context.getString(R.string.work_hour_name),
+            viewModel
+        )
     }
 
     Column {
@@ -52,7 +55,7 @@ fun WorkHoursScreen(viewModel: WorkHoursScreenViewModel) {
                 .fillMaxSize()
                 .background(
                     Color(context.getColor(R.color.light_gray)),
-                    RoundedCornerShape(topStart = 50.dp, topEnd = 50.dp)
+                    RoundedCornerShape(topStart = 25.dp, topEnd = 25.dp)
                 )
         ) {
             Box(
@@ -62,7 +65,7 @@ fun WorkHoursScreen(viewModel: WorkHoursScreenViewModel) {
                     .padding(top = .75.dp)
                     .background(
                         Color.White,
-                        RoundedCornerShape(topStart = 50.dp, topEnd = 50.dp)
+                        RoundedCornerShape(topStart = 25.dp, topEnd = 25.dp)
                     )
             ) {
                 Column(

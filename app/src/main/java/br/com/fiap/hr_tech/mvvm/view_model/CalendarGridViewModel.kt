@@ -19,8 +19,9 @@ class CalendarGridViewModel(private val year: Int, private val month: Int) {
         _dateSelected.value = localDate
     }
 
-    fun getInitialDate(startFrom: Int): LocalDate {
-        var localDate = LocalDate.of(year, month, startFrom)
+    fun getInitialDate(startMonth: Int, startDay: Int): LocalDate {
+        val month = if (startMonth == 0) this.month else startMonth
+        var localDate = LocalDate.of(year, month, startDay)
         while (localDate.dayOfWeek != DayOfWeek.SUNDAY) {
             localDate = localDate.minusDays(1)
         }
