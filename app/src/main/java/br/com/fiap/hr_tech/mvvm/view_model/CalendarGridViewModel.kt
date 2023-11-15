@@ -33,7 +33,7 @@ class CalendarGridViewModel(private val year: Int, private val month: Int) {
         if (itemDate.monthValue != month) {
             color = Color(context.getColor(R.color.gray))
         }
-        if ((today.dayOfMonth == itemDate.dayOfMonth) and (today.month == itemDate.month)) {
+        if (today == itemDate) {
             color = Color(context.getColor(R.color.blue))
         }
         if (dateSelected != null) {
@@ -48,7 +48,7 @@ class CalendarGridViewModel(private val year: Int, private val month: Int) {
 
     fun borderColor(itemDate: LocalDate, context: Context): Color {
         var color = Color.Transparent
-        if ((today.dayOfMonth == itemDate.dayOfMonth) and (today.month == itemDate.month)) {
+        if (today == itemDate) {
             color = Color(context.getColor(R.color.blue))
         }
         return color

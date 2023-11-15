@@ -21,6 +21,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
@@ -42,10 +43,7 @@ fun WorkHoursScreen(viewModel: WorkHoursScreenViewModel) {
     val retractCalendar by viewModel.retractCalendar.observeAsState(initial = false)
 
     if (openPopup) {
-        WorkHoursPopup(
-            context.getString(R.string.insert) + " " + context.getString(R.string.work_hour_name),
-            viewModel
-        )
+        WorkHoursPopup(viewModel)
     }
 
     Column {
@@ -114,18 +112,26 @@ fun WorkHoursScreen(viewModel: WorkHoursScreenViewModel) {
                                 fontSize = 20.sp,
                                 color = Color(context.getColor(R.color.gray)),
                                 modifier = Modifier.clickable {
-                                    viewModel.openPopupChangeValue(true)
+                                    viewModel.newPopupRegister(context)
                                 }
                             )
                         }
                         Column(Modifier.verticalScroll(rememberScrollState())) {
                             repeat(4) {
-                                WorkHourItem(
-                                    description = "TEste",
-                                    hour = "08h00",
-                                    textColor = Color(context.getColor(R.color.blue)),
-                                    backgroundColor = Color(context.getColor(R.color.light_blue))
-                                )
+                                val id = 1
+                                Box(
+                                    Modifier
+                                        .clip(RoundedCornerShape(15.dp))
+                                        .clickable {
+                                            viewModel.selectPopupRegister(id, context)
+                                        }) {
+                                    WorkHourItem(
+                                        description = "TEste",
+                                        hour = "08h00",
+                                        textColor = Color(context.getColor(R.color.blue)),
+                                        backgroundColor = Color(context.getColor(R.color.light_blue))
+                                    )
+                                }
                                 Spacer(
                                     Modifier
                                         .fillMaxWidth()

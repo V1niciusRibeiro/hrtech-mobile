@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -26,10 +27,15 @@ class AppNavigation {
 
             Column {
                 val appHeaderViewModel = AppHeaderViewModel()
-                AppHeader(appHeaderViewModel)
+                if (currentRoute !== AppRoutes.LOGIN_ROUTE) {
+                    AppHeader(
+                        AppRoutes.getScreenName(currentRoute, LocalContext.current),
+                        appHeaderViewModel
+                    )
+                }
                 Box {
                     createNavigation(navController = navController)
-                    SideBarMenu(appHeaderViewModel)
+                    SideBarMenu(navController, appHeaderViewModel)
                 }
             }
         }

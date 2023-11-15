@@ -1,7 +1,9 @@
 package br.com.fiap.hr_tech.mvvm.view_model
 
+import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import br.com.fiap.hr_tech.R
 import java.time.LocalDate
 
 class WorkHoursScreenViewModel {
@@ -15,11 +17,17 @@ class WorkHoursScreenViewModel {
     private val _dateSelected = MutableLiveData<LocalDate?>()
     val dateSelected: LiveData<LocalDate?> = _dateSelected
 
-    private val _description = MutableLiveData<String>()
-    val description: LiveData<String> = _description
+    private val _idPopup = MutableLiveData<Int>()
+    val idPopup: LiveData<Int> = _idPopup
 
-    private val _hour = MutableLiveData<String>()
-    val hour: LiveData<String> = _hour
+    private val _titlePopup = MutableLiveData<String>()
+    val titlePopup: LiveData<String> = _titlePopup
+
+    private val _descriptionPopup = MutableLiveData<String>()
+    val descriptionPopup: LiveData<String> = _descriptionPopup
+
+    private val _hourPopup = MutableLiveData<String>()
+    val hourPopup: LiveData<String> = _hourPopup
 
     fun retractCalendarChangeValue(retract: Boolean) {
         _retractCalendar.value = retract
@@ -36,12 +44,28 @@ class WorkHoursScreenViewModel {
         }
     }
 
-    fun descriptionChangeValue(description: String) {
-        _description.value = description
+    fun descriptionPopupChangeValue(description: String) {
+        _descriptionPopup.value = description
     }
 
-    fun hourChangeValue(hour: String) {
-        _hour.value = hour
+    fun hourPopupChangeValue(hour: String) {
+        _hourPopup.value = hour
+    }
+
+    fun newPopupRegister(context: Context) {
+        _idPopup.value = 0
+        _titlePopup.value = context.getString(R.string.insert)
+        _descriptionPopup.value = ""
+        _hourPopup.value = ""
+        _openPopup.value = true
+    }
+
+    fun selectPopupRegister(id: Int, context: Context) {
+        _idPopup.value = id
+        _titlePopup.value = context.getString(R.string.update)
+        _descriptionPopup.value = ""
+        _hourPopup.value = ""
+        _openPopup.value = true
     }
 
 }

@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -20,6 +21,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
@@ -28,7 +30,7 @@ import br.com.fiap.hr_tech.R
 import br.com.fiap.hr_tech.mvvm.view_model.AppHeaderViewModel
 
 @Composable
-fun AppHeader(viewModel: AppHeaderViewModel) {
+fun AppHeader(screenName: String, viewModel: AppHeaderViewModel) {
 
     val context = LocalContext.current
     val sideBarOpen by viewModel.sideBarOpen.observeAsState(initial = false)
@@ -54,16 +56,12 @@ fun AppHeader(viewModel: AppHeaderViewModel) {
         ) {
             Row {
                 Spacer(Modifier.size(15.dp))
-                Box(
-                    Modifier
-                        .fillMaxHeight(.4f)
-                        .aspectRatio(1f)
-                        .clickable { viewModel.sideBarOpenChengeValue(!sideBarOpen) }) {
+                Box(Modifier.clickable { viewModel.sideBarOpenChengeValue(!sideBarOpen) }) {
                     BurgerMenu(sideBarOpen)
                 }
             }
             Row(horizontalArrangement = Arrangement.Center, modifier = Modifier.fillMaxWidth()) {
-                Text(text = "Pontos", fontSize = 22.sp)
+                Text(text = screenName, fontSize = 22.sp)
             }
         }
     }
@@ -72,24 +70,27 @@ fun AppHeader(viewModel: AppHeaderViewModel) {
 @Composable
 fun BurgerMenu(sideBarOpen: Boolean) {
 
-    Column {
-        repeat(3) {
-            Spacer(
-                Modifier
-                    .fillMaxSize()
-                    .weight(.5f)
-            )
+    Column(
+        Modifier
+            .fillMaxHeight(.4f)
+            .aspectRatio(1f)
+    ) {
+        repeat(if (sideBarOpen) 2 else 3) {
             Box(
-                Modifier
+                contentAlignment = Alignment.Center,
+                modifier = Modifier
                     .fillMaxSize()
                     .weight(1f)
-                    .background(Color.Black)
-            )
-            Spacer(
-                Modifier
-                    .fillMaxSize()
-                    .weight(.5f)
-            )
+            ) {
+                Box(
+                    Modifier
+                        .fillMaxWidth()
+                        .fillMaxHeight(if (sideBarOpen) 0.333f else 0.5f)
+                        .offset(y = if (sideBarOpen) 7.5.dp * (1 - (2 * it)) else 0.dp)
+                        .rotate(if (sideBarOpen) 45f * (1 - (2 * it)) else 0f)
+                        .background(Color.Black)
+                )
+            }
         }
     }
 

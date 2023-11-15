@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">HR_Tech</string>
+    <string name="error_404">Error 404</string>
     <string name="select_day">Select a Day</string>
     <string name="add">Add</string>
     <string name="description">Description</string>
@@ -7,5 +8,7 @@
     <string name="insert">Insert</string>
     <string name="update">Update</string>
     <string name="delete">Delete</string>
+    <string name="cancel">Cancel</string>
+    <string name="save">Save</string>
     <string name="work_hour_name">Work Hour</string>
 </resources>
