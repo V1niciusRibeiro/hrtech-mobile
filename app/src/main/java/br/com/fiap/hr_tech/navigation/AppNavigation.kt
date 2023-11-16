@@ -12,8 +12,10 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import br.com.fiap.hr_tech.mvvm.view.component.AppHeader
 import br.com.fiap.hr_tech.mvvm.view.component.SideBarMenu
+import br.com.fiap.hr_tech.mvvm.view.screen.LoginScreen
 import br.com.fiap.hr_tech.mvvm.view.screen.WorkHoursScreen
 import br.com.fiap.hr_tech.mvvm.view_model.AppHeaderViewModel
+import br.com.fiap.hr_tech.mvvm.view_model.LoginScreenViewModel
 import br.com.fiap.hr_tech.mvvm.view_model.WorkHoursScreenViewModel
 
 class AppNavigation {
@@ -42,7 +44,10 @@ class AppNavigation {
 
         @Composable
         private fun createNavigation(navController: NavHostController) {
-            NavHost(navController = navController, startDestination = AppRoutes.WORK_HOURS_ROUTE) {
+            NavHost(navController = navController, startDestination = AppRoutes.LOGIN_ROUTE) {
+                composable(route = AppRoutes.LOGIN_ROUTE) {
+                    LoginScreen(navController, LoginScreenViewModel())
+                }
                 composable(route = AppRoutes.WORK_HOURS_ROUTE) {
                     WorkHoursScreen(WorkHoursScreenViewModel())
                 }
