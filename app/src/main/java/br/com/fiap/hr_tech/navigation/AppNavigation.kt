@@ -12,8 +12,10 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import br.com.fiap.hr_tech.mvvm.view.component.AppHeader
 import br.com.fiap.hr_tech.mvvm.view.component.SideBarMenu
+import br.com.fiap.hr_tech.mvvm.view.screen.GridPayment
 import br.com.fiap.hr_tech.mvvm.view.screen.WorkHoursScreen
 import br.com.fiap.hr_tech.mvvm.view_model.AppHeaderViewModel
+import br.com.fiap.hr_tech.mvvm.view_model.GridPaymentViewModel
 import br.com.fiap.hr_tech.mvvm.view_model.WorkHoursScreenViewModel
 
 class AppNavigation {
@@ -45,6 +47,9 @@ class AppNavigation {
             NavHost(navController = navController, startDestination = AppRoutes.WORK_HOURS_ROUTE) {
                 composable(route = AppRoutes.WORK_HOURS_ROUTE) {
                     WorkHoursScreen(WorkHoursScreenViewModel())
+                }
+                composable(route = AppRoutes.GRID_PAYMENT_ROUTE) {
+                    GridPayment(GridPaymentViewModel())
                 }
             }
         }

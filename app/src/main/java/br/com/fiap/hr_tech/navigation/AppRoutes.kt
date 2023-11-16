@@ -9,6 +9,7 @@ class AppRoutes {
 
         const val LOGIN_ROUTE = "login"
         const val WORK_HOURS_ROUTE = "work_hours"
+        const val GRID_PAYMENT_ROUTE = "payment"
 
         fun getScreenName(route: String?, context: Context): String {
             if (route === WORK_HOURS_ROUTE) {
