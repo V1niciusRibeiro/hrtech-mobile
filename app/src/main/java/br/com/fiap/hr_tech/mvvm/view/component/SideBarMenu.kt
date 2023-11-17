@@ -80,6 +80,14 @@ private fun Menus(navController: NavController, viewModel: AppHeaderViewModel) {
             AppRoutes.getScreenName(AppRoutes.WORK_HOURS_ROUTE, context)
         ),
         Menu(
+            AppRoutes.GRID_PAYMENT_ROUTE,
+            AppRoutes.getScreenName(AppRoutes.GRID_PAYMENT_ROUTE, context)
+        ),
+        Menu(
+            AppRoutes.FEED_ROUTE,
+            AppRoutes.getScreenName(AppRoutes.FEED_ROUTE, context)
+        ),
+        Menu(
             AppRoutes.LOGIN_ROUTE,
             AppRoutes.getScreenName(AppRoutes.LOGIN_ROUTE, context)
         )

@@ -18,14 +18,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @OptIn(ExperimentalMaterial3Api::class)
-
-
-
 
 
 @Composable
@@ -49,30 +45,20 @@ fun Ano() {
             Icon(imageVector = Icons.Default.KeyboardArrowDown, contentDescription = null)
 
 
-            DropdownMenu(expanded = expanded.value,onDismissRequest = {
+            DropdownMenu(expanded = expanded.value, onDismissRequest = {
                 expanded.value = false
             }) {
 
                 list.forEach {
 
-                    DropdownMenuItem(text = {  Text(text = it)}, onClick = {   expanded.value = false
-                        currentValue.value = it })
+                    DropdownMenuItem(text = { Text(text = it) }, onClick = {
+                        expanded.value = false
+                        currentValue.value = it
+                    })
 
                 }
             }
         }
     }
 }
-
-
-@Preview(showBackground = true, showSystemUi = true)
-@Composable
-fun AnoPreview() {
-    run {
-        Ano()
-    }
-}
-
-
-
 

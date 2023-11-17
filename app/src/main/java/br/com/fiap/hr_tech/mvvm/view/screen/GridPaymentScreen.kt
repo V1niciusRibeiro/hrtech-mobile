@@ -28,7 +28,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import br.com.fiap.hr_tech.mvvm.view.component.grid.Ano
@@ -152,13 +151,5 @@ fun GridPayment(gridPaymentViewModel: GridPaymentViewModel) {
                 color = Color(0xFF000000)
             )
         }
-    }
-}
-
-@Preview(showBackground = true, showSystemUi = true)
-@Composable
-fun GreetingPreview() {
-    run {
-        GridPayment(GridPaymentViewModel())
     }
 }

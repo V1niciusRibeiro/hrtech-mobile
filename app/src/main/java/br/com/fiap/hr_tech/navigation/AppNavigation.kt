@@ -12,11 +12,16 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import br.com.fiap.hr_tech.mvvm.view.component.AppHeader
 import br.com.fiap.hr_tech.mvvm.view.component.SideBarMenu
+import br.com.fiap.hr_tech.mvvm.view.screen.Feed
 import br.com.fiap.hr_tech.mvvm.view.screen.GridPayment
 import br.com.fiap.hr_tech.mvvm.view.screen.LoginScreen
+import br.com.fiap.hr_tech.mvvm.view.screen.RegisterScreen
 import br.com.fiap.hr_tech.mvvm.view.screen.WorkHoursScreen
 import br.com.fiap.hr_tech.mvvm.view_model.AppHeaderViewModel
+import br.com.fiap.hr_tech.mvvm.view_model.FeedViewModel
+import br.com.fiap.hr_tech.mvvm.view_model.GridPaymentViewModel
 import br.com.fiap.hr_tech.mvvm.view_model.LoginScreenViewModel
+import br.com.fiap.hr_tech.mvvm.view_model.RegisterScreenViewModel
 import br.com.fiap.hr_tech.mvvm.view_model.WorkHoursScreenViewModel
 
 class AppNavigation {
@@ -30,7 +35,7 @@ class AppNavigation {
 
             Column {
                 val appHeaderViewModel = AppHeaderViewModel()
-                if (currentRoute !== AppRoutes.LOGIN_ROUTE) {
+                if ((currentRoute !== AppRoutes.LOGIN_ROUTE) and (currentRoute !== AppRoutes.REGISTER_ROUTE)) {
                     AppHeader(
                         AppRoutes.getScreenName(currentRoute, LocalContext.current),
                         appHeaderViewModel
@@ -49,11 +54,17 @@ class AppNavigation {
                 composable(route = AppRoutes.LOGIN_ROUTE) {
                     LoginScreen(navController, LoginScreenViewModel())
                 }
+                composable(route = AppRoutes.REGISTER_ROUTE) {
+                    RegisterScreen(navController, RegisterScreenViewModel())
+                }
                 composable(route = AppRoutes.WORK_HOURS_ROUTE) {
                     WorkHoursScreen(WorkHoursScreenViewModel())
                 }
                 composable(route = AppRoutes.GRID_PAYMENT_ROUTE) {
                     GridPayment(GridPaymentViewModel())
+                }
+                composable(route = AppRoutes.FEED_ROUTE) {
+                    Feed(FeedViewModel())
                 }
             }
         }

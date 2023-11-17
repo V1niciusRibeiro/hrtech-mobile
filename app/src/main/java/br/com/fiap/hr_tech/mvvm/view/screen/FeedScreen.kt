@@ -20,7 +20,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import br.com.fiap.hr_tech.R
@@ -50,7 +49,7 @@ fun Feed(feedViewModel: FeedViewModel) {
                 val data = datas.getOrElse(index) { "Data Indisponível" }
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally,
-                    modifier =  Modifier.width(370.dp)
+                    modifier = Modifier.width(370.dp)
                 ) {
                     Text(
                         text = data,
@@ -90,10 +89,4 @@ fun Feed(feedViewModel: FeedViewModel) {
             )
         }
     }
-}
-
-@Preview
-@Composable
-fun FeedPreview() {
-    Feed(FeedViewModel())
 }

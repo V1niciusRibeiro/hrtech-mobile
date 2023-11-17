@@ -11,9 +11,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -25,10 +22,10 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import br.com.fiap.hr_tech.R
+import br.com.fiap.hr_tech.mvvm.view.component.DefaultInput
 import br.com.fiap.hr_tech.mvvm.view_model.LoginScreenViewModel
 import br.com.fiap.hr_tech.navigation.AppRoutes
 
@@ -68,29 +65,16 @@ fun LoginScreen(navController: NavController, viewModel: LoginScreenViewModel) {
                     modifier = Modifier.fillMaxSize()
                 ) {
                     Spacer(Modifier.fillMaxHeight(.15f))
-                    OutlinedTextField(
+                    DefaultInput(
                         value = login,
-                        shape = RoundedCornerShape(30.dp),
-                        modifier = Modifier.fillMaxWidth(.75f),
-                        label = { Text(context.getString(R.string.login)) },
-                        onValueChange = { viewModel.loginChangeValue(it) },
-                        colors = OutlinedTextFieldDefaults.colors(
-                            focusedBorderColor = blue,
-                            focusedLabelColor = blue
-                        )
+                        label = context.getString(R.string.login),
+                        onValueChange = { viewModel.loginChangeValue(it) }
                     )
                     Spacer(Modifier.fillMaxHeight(.05f))
-                    OutlinedTextField(
+                    DefaultInput(
                         value = password,
-                        shape = RoundedCornerShape(30.dp),
-                        modifier = Modifier.fillMaxWidth(.75f),
-                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
-                        label = { Text(context.getString(R.string.password)) },
-                        onValueChange = { viewModel.passwordChangeValue(it) },
-                        colors = OutlinedTextFieldDefaults.colors(
-                            focusedBorderColor = blue,
-                            focusedLabelColor = blue
-                        )
+                        label = context.getString(R.string.password),
+                        onValueChange = { viewModel.passwordChangeValue(it) }
                     )
                     Spacer(Modifier.fillMaxHeight(.35f))
                     TextButton(
@@ -104,7 +88,7 @@ fun LoginScreen(navController: NavController, viewModel: LoginScreenViewModel) {
                     }
                     Spacer(Modifier.fillMaxHeight(.05f))
                     TextButton(
-                        onClick = { /*TODO*/ },
+                        onClick = { navController.navigate(AppRoutes.REGISTER_ROUTE) },
                         modifier = Modifier
                             .fillMaxWidth(.75f)
                             .clip(RoundedCornerShape(40.dp))
