@@ -11,6 +11,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import br.com.fiap.hr_tech.mvvm.view.component.AppHeader
+import br.com.fiap.hr_tech.mvvm.view.component.AppMessages
 import br.com.fiap.hr_tech.mvvm.view.component.SideBarMenu
 import br.com.fiap.hr_tech.mvvm.view.screen.Feed
 import br.com.fiap.hr_tech.mvvm.view.screen.GridPayment
@@ -33,17 +34,21 @@ class AppNavigation {
             val navBackStackEntry by navController.currentBackStackEntryAsState()
             val currentRoute = navBackStackEntry?.destination?.route
 
-            Column {
-                val appHeaderViewModel = AppHeaderViewModel()
-                if ((currentRoute !== AppRoutes.LOGIN_ROUTE) and (currentRoute !== AppRoutes.REGISTER_ROUTE)) {
-                    AppHeader(
-                        AppRoutes.getScreenName(currentRoute, LocalContext.current),
-                        appHeaderViewModel
-                    )
-                }
-                Box {
-                    createNavigation(navController = navController)
-                    SideBarMenu(navController, appHeaderViewModel)
+
+            Box{
+                AppMessages()
+                Column {
+                    val appHeaderViewModel = AppHeaderViewModel()
+                    if ((currentRoute !== AppRoutes.LOGIN_ROUTE) and (currentRoute !== AppRoutes.REGISTER_ROUTE)) {
+                        AppHeader(
+                            AppRoutes.getScreenName(currentRoute, LocalContext.current),
+                            appHeaderViewModel
+                        )
+                    }
+                    Box {
+                        createNavigation(navController = navController)
+                        SideBarMenu(navController, appHeaderViewModel)
+                    }
                 }
             }
         }

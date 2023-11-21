@@ -39,9 +39,6 @@ class WorkHoursScreenViewModel {
 
     fun dateSelectedChangeValue(localDate: LocalDate?) {
         _dateSelected.value = localDate
-        if (localDate == null) {
-            retractCalendarChangeValue(false)
-        }
     }
 
     fun descriptionPopupChangeValue(description: String) {

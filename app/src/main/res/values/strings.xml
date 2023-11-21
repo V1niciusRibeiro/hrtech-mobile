@@ -21,4 +21,16 @@
     <string name="logout">Logout</string>
     <string name="_return">Return</string>
     <string name="name">Name</string>
+    <string name="error">Error!</string>
+    <string name="success">Success!</string>
+    <string name="info">Info!</string>
+    <string name="warning">Warning!</string>
+    <string name="name_required">Name is Required.</string>
+    <string name="email_required">Email is Required.</string>
+    <string name="password_required">Password is Required.</string>
+    <string name="password_not_match">Passwords do not Match.</string>
+    <string name="user_login_incorrect">Incorrect Login or Password.</string>
+    <string name="user_register_success">User has been Registered.</string>
+    <string name="user_confirm_password_incorrect">Passwords do not match.</string>
+    <string name="api_failure_response">Error Connecting to Database. Try later.</string>
 </resources>

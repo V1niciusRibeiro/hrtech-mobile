@@ -8,4 +8,10 @@
     <color name="light_gray">#40000000</color>
     <color name="dark_ice">#D8D8D8</color>
     <color name="light_blue">#BDD0FC</color>
+    <color name="light_green">#BDFCCB</color>
+    <color name="green">#209925</color>
+    <color name="light_red">#FCC8BD</color>
+    <color name="red">#EA1515</color>
+    <color name="light_yellow">#FBFCBD</color>
+    <color name="orange">#F36210</color>
 </resources>

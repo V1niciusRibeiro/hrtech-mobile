@@ -78,7 +78,7 @@ fun LoginScreen(navController: NavController, viewModel: LoginScreenViewModel) {
                     )
                     Spacer(Modifier.fillMaxHeight(.35f))
                     TextButton(
-                        onClick = { navController.navigate(AppRoutes.WORK_HOURS_ROUTE) },
+                        onClick = { viewModel.doLogin(login, password, navController, context) },
                         modifier = Modifier
                             .fillMaxWidth(.75f)
                             .clip(RoundedCornerShape(40.dp))

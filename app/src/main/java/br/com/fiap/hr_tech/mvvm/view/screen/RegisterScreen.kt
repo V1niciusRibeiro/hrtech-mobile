@@ -80,7 +80,7 @@ fun RegisterScreen(navController: NavController, viewModel: RegisterScreenViewMo
                     DefaultInput(
                         value = email,
                         label = context.getString(R.string.login),
-                        onValueChange = { viewModel.passwordChangeValue(it) }
+                        onValueChange = { viewModel.emailChangeValue(it) }
                     )
                     Spacer(Modifier.fillMaxHeight(.05f))
                     DefaultInput(
@@ -96,7 +96,16 @@ fun RegisterScreen(navController: NavController, viewModel: RegisterScreenViewMo
                     )
                     Spacer(Modifier.fillMaxHeight(.15f))
                     TextButton(
-                        onClick = { navController.navigate(AppRoutes.LOGIN_ROUTE) },
+                        onClick = {
+                            viewModel.doRegister(
+                                name,
+                                email,
+                                password,
+                                confirmPassword,
+                                navController,
+                                context
+                            )
+                        },
                         modifier = Modifier
                             .fillMaxWidth(.75f)
                             .clip(RoundedCornerShape(40.dp))

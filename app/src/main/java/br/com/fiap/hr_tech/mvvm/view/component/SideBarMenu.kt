@@ -31,6 +31,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import br.com.fiap.hr_tech.mvvm.view_model.AppHeaderViewModel
 import br.com.fiap.hr_tech.navigation.AppRoutes
+import br.com.fiap.hr_tech.util.GlobalObject
 
 @Composable
 fun SideBarMenu(navController: NavController, viewModel: AppHeaderViewModel) {
@@ -107,8 +108,11 @@ private fun Menus(navController: NavController, viewModel: AppHeaderViewModel) {
                 .padding(horizontal = 20.dp)
                 .clip(RoundedCornerShape(20.dp))
                 .clickable {
-                    navController.navigate(it.menuRoute)
+                    if (it.menuRoute === AppRoutes.LOGIN_ROUTE) {
+                        GlobalObject.user = null
+                    }
                     viewModel.sideBarOpenChengeValue(false)
+                    navController.navigate(it.menuRoute)
                 }
         ) {
             Text(text = it.menuName, fontSize = 24.sp, color = Color.White)
