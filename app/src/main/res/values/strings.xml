@@ -21,6 +21,7 @@
     <string name="logout">Logout</string>
     <string name="_return">Return</string>
     <string name="name">Name</string>
+    <string name="no_worked_hours">No Worked Hours</string>
     <string name="error">Error!</string>
     <string name="success">Success!</string>
     <string name="info">Info!</string>
@@ -33,4 +34,8 @@
     <string name="user_register_success">User has been Registered.</string>
     <string name="user_confirm_password_incorrect">Passwords do not match.</string>
     <string name="api_failure_response">Error Connecting to Database. Try later.</string>
+    <string name="work_hour_register_success">Work Hour has been Registered.</string>
+    <string name="work_hour_update_success">Work Hour has been Updated.</string>
+    <string name="work_hour_delete_success">Work Hour has been Deleted.</string>
+    <string name="hour_incorrect">Invalid Hour.</string>
 </resources>

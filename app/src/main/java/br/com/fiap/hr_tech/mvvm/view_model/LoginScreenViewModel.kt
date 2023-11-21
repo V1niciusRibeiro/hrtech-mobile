@@ -31,12 +31,12 @@ class LoginScreenViewModel {
     }
 
     fun doLogin(email: String, password: String, navController: NavController, context: Context) {
-        val call = RetrofitFactory().getDBService().getUserByEmail(email)
-        call.enqueue(object : Callback<List<User>> {
-            override fun onResponse(call: Call<List<User>>, response: Response<List<User>>) {
-                val users = response.body()
-                if (users!!.isNotEmpty()) {
-                    users.forEach { user ->
+        if (verifyErrors(email, password, context)) {
+            val call = RetrofitFactory().getDBService().getUserByEmail(email)
+            call.enqueue(object : Callback<User> {
+                override fun onResponse(call: Call<User>, response: Response<User>) {
+                    val user = response.body()
+                    if (user != null) {
                         if (user.password == password) {
                             GlobalObject.user = user
                             navController.navigate(AppRoutes.WORK_HOURS_ROUTE)
@@ -47,26 +47,44 @@ class LoginScreenViewModel {
                                 TypeMessage.ERROR
                             )
                         }
-
+                    } else {
+                        GlobalObject.user = null
+                        GlobalObject.message.addMessage(
+                            context.getString(R.string.user_login_incorrect),
+                            TypeMessage.ERROR
+                        )
                     }
-                } else {
-                    GlobalObject.user = null
+                }
+
+                override fun onFailure(call: Call<User>, t: Throwable) {
                     GlobalObject.message.addMessage(
-                        context.getString(R.string.user_login_incorrect),
+                        context.getString(R.string.api_failure_response),
                         TypeMessage.ERROR
                     )
+                    println(t.stackTraceToString())
                 }
-            }
 
-            override fun onFailure(call: Call<List<User>>, t: Throwable) {
-                GlobalObject.message.addMessage(
-                    context.getString(R.string.api_failure_response),
-                    TypeMessage.ERROR
-                )
-                println(t.stackTraceToString())
-            }
+            })
+        }
+    }
 
-        })
+    private fun verifyErrors(email: String, password: String, context: Context): Boolean {
+        var loginOk = true
+        if (email.isEmpty()) {
+            GlobalObject.message.addMessage(
+                context.getString(R.string.email_required),
+                TypeMessage.ERROR
+            )
+            loginOk = false
+        }
+        if (password.isEmpty()) {
+            GlobalObject.message.addMessage(
+                context.getString(R.string.password_required),
+                TypeMessage.ERROR
+            )
+            loginOk = false
+        }
+        return loginOk
     }
 
 }
