@@ -1,5 +1,6 @@
 package br.com.fiap.hr_tech.database
 
+import br.com.fiap.hr_tech.mvvm.model.Payment
 import br.com.fiap.hr_tech.mvvm.model.User
 import br.com.fiap.hr_tech.mvvm.model.WorkHour
 import retrofit2.Call
@@ -24,7 +25,7 @@ interface DBService {
     ): Call<User>
 
 
-    @GET("/pontos/pela-data-usuario")
+    @GET("/pontos/pelo-dia-usuario")
     fun getUserWorkHours(
         @Query("data") date: String?,
         @Query("usuarioId") userId: Int?
@@ -38,4 +39,14 @@ interface DBService {
 
     @DELETE("/pontos/deletar/{id}")
     fun deleteWorkHour(@Path("id") id: Long): Call<Void>
+
+
+    @GET("/holerite/pelo-mes-ano-usuario")
+    fun getUserPayments(
+        @Query("mes") mes: Int?,
+        @Query("ano") ano: Int?,
+        @Query("usuarioId") userId: Int?
+    ): Call<Payment>
+
+
 }

@@ -76,6 +76,7 @@ class RegisterScreenViewModel {
                         context.getString(R.string.api_failure_response),
                         TypeMessage.ERROR
                     )
+                    println(t.stackTraceToString())
                 }
             })
         }

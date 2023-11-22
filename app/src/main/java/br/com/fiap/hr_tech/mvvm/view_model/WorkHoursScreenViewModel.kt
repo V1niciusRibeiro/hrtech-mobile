@@ -50,7 +50,10 @@ class WorkHoursScreenViewModel {
     fun dateSelectedChangeValue(localDate: LocalDate?, context: Context) {
         _dateSelected.value = localDate
         val call = RetrofitFactory().getDBService()
-            .getUserWorkHours(localDate.toString(), GlobalObject.user!!.id)
+            .getUserWorkHours(
+                localDate?.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")),
+                GlobalObject.user!!.id
+            )
         call.enqueue(object : Callback<List<WorkHour>> {
             override fun onResponse(
                 call: Call<List<WorkHour>>,
@@ -96,7 +99,7 @@ class WorkHoursScreenViewModel {
             GlobalObject.user!!
         )
         _descriptionPopup.value = ""
-        _hourPopup.value = ""
+        _hourPopup.value = "00:00"
         _openPopup.value = true
     }
 
@@ -135,7 +138,7 @@ class WorkHoursScreenViewModel {
         }
         localDateTime = localDateTime.withSecond(0)
         localDateTime = localDateTime.withNano(0)
-        return localDateTime.toString()
+        return localDateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSSSS"))
     }
 
     private fun insertWorkHour(workHour: WorkHour, context: Context) {
@@ -207,8 +210,8 @@ class WorkHoursScreenViewModel {
                 TypeMessage.ERROR
             )
             workHourOk = false
-        } else if ((hour.substring(0, 2).toInt() > 24) or (hour.substring(0, 2).toInt() < 1) or
-            (hour.substring(3, 5).toInt() > 59) or (hour.substring(3, 5).toInt() < 1)
+        } else if ((hour.substring(0, 2).toInt() > 24) or (hour.substring(0, 2).toInt() < 0) or
+            (hour.substring(3, 5).toInt() > 59) or (hour.substring(3, 5).toInt() < 0)
         ) {
             GlobalObject.message.addMessage(
                 context.getString(R.string.hour_incorrect),

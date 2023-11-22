@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -32,7 +33,9 @@ import br.com.fiap.hr_tech.mvvm.view.component.work_hour.WorkHourItem
 import br.com.fiap.hr_tech.mvvm.view.component.work_hour.WorkHoursPopup
 import br.com.fiap.hr_tech.mvvm.view_model.CalendarViewModel
 import br.com.fiap.hr_tech.mvvm.view_model.WorkHoursScreenViewModel
+import br.com.fiap.hr_tech.util.getHour
 import br.com.fiap.hr_tech.util.getMonthName
+import java.time.LocalDateTime
 
 @Composable
 fun WorkHoursScreen(viewModel: WorkHoursScreenViewModel) {
@@ -122,7 +125,7 @@ fun WorkHoursScreen(viewModel: WorkHoursScreenViewModel) {
                             modifier = Modifier.fillMaxSize()
                         ) {
                             if (workHours.isNotEmpty()) {
-                                items(workHours.size) {
+                                items(workHours) {
                                     Spacer(
                                         Modifier
                                             .fillMaxWidth()
@@ -132,12 +135,12 @@ fun WorkHoursScreen(viewModel: WorkHoursScreenViewModel) {
                                         Modifier
                                             .clip(RoundedCornerShape(15.dp))
                                             .clickable {
-                                                viewModel.selectPopupRegister(workHours[it])
+                                                viewModel.selectPopupRegister(it)
                                             }
                                     ) {
                                         WorkHourItem(
-                                            description = workHours[it].description,
-                                            hour = workHours[it].date.toString(),
+                                            description = it.description,
+                                            hour = getHour(LocalDateTime.parse(it.date)),
                                             textColor = Color(context.getColor(R.color.blue)),
                                             backgroundColor = Color(context.getColor(R.color.light_blue))
                                         )

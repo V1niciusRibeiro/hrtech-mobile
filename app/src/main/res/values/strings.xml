@@ -26,6 +26,7 @@
     <string name="success">Success!</string>
     <string name="info">Info!</string>
     <string name="warning">Warning!</string>
+    <string name="ok">Ok</string>
     <string name="name_required">Name is Required.</string>
     <string name="email_required">Email is Required.</string>
     <string name="password_required">Password is Required.</string>
@@ -38,4 +39,15 @@
     <string name="work_hour_update_success">Work Hour has been Updated.</string>
     <string name="work_hour_delete_success">Work Hour has been Deleted.</string>
     <string name="hour_incorrect">Invalid Hour.</string>
+    <string name="clear_selection">Clear Selection</string>
+    <string name="select_all">Select All</string>
+    <string name="view_payments">View Payments</string>
+    <string name="generate_pdf">Generate PDF</string>
+    <string name="id">ID</string>
+    <string name="date">Date</string>
+    <string name="adjustment">Adjustment</string>
+    <string name="value">Value</string>
+    <string name="unavailable">Unavailable</string>
+    <string name="no_payments">No Payments</string>
 </resources>
+
